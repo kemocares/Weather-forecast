@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.header {
+  background-image: linear-gradient(to right, #3464bb, #210b4e);
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.search h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.search-form form {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.search-form input {
+  padding: 0.75rem 0.5rem;
+  font-size: 1rem;
+  border: 1px solid black;
+  border-radius: 0.25em;
+}
+
+.search-form button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25em;
+  background-color: #5196e9;
+  color: white;
+  cursor: pointer;
+}
+
+.search-history {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.search-history p {
+  background-color: #aeaeae;
+  margin: 0;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 0.25em;
+}
+
+.display {
+  display: grid;
+  gap: 1rem;
+}
+
+.today {
+  border: 1px solid black;
+  padding: 1rem 0.5rem;
+}
+
+.today header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.today h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.forecast-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.forecast {
+  color: white;
+  background-color: #2d3f51;
+  padding: 0.5rem;
+}
+
+.forecast h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.forecast p {
+  margin-top: 0;
+}
