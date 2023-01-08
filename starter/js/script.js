@@ -54,3 +54,59 @@ function fetchCityWeatherInfo(city) {
     })
     .catch((e) => console.log(e.message));
 }
+
+function fetchForecast(lat, lon) {
+  fetch(forecastUrl + `?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`)
+    .then((res) => res.json())
+    .then((data) => data.list)
+    .then((data) =>
+      data.reduce((acc, item) => {
+        const date = new Date(item.dt * 1000).toLocaleDateString();
+
+        if (date === new Date().toLocaleDateString()) return acc;
+
+        acc[date] = {
+          date,
+          timestamp: item.dt,
+          temp: item.main.temp.toFixed(2),
+          wind: item.wind.speed,
+          humidity: item.main.humidity,
+          iconUrl: iconUrl + item.weather[0].icon + ".png",
+          iconDescription: item.weather[0].description,
+        };
+        return acc;
+      }, {})
+    )
+    .then((data) =>
+      Object.values(data).sort((a, b) => a.timestamp - b.timestamp)
+    )
+    .then((data) => data.map(renderForecast))
+    .then((data) =>
+      data.forEach((forecast, index) => {
+        forecastCards.childNodes[index]
+          ? forecastCards.replaceChild(
+              forecast,
+              forecastCards.childNodes[index]
+            )
+          : forecastCards.appendChild(forecast);
+      })
+    )
+    .catch((e) => console.log(e.message));
+}
+
+function renderForecast(data) {
+  const { date, temp, wind, humidity, iconUrl, iconDescription } = data;
+
+  const div = document.createElement("div");
+  div.classList.add("forecast");
+  div.innerHTML = `
+          <header>
+            <h3>${date}</h3>
+            <img src="${iconUrl}" alt="${iconDescription}">
+          </header>
+          <p>Temp: ${temp} ºC</p>
+          <p>Wind: ${wind} KPH</p>
+          <p>Humidity: ${humidity}%</p>
+  `;
+  return div;
+}
