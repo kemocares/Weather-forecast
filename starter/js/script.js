@@ -15,15 +15,30 @@ var currentIcon = document.querySelector(".current-icon");
 var forecastCards = document.querySelector(".forecast-cards");
 var searchHistory = document.querySelector(".search-history");
 
+
 window.addEventListener("load", function () {
-  fetchCityWeatherInfo("London");
+  renderSearchHistory();
+
+  fetchCityWeatherInfo("London").then((data) => {
+    fetchForecast(data.coord.lat, data.coord.lon);
+  });
 });
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  fetchCityWeatherInfo(cityInput.value).then((data) => {
+  if (cityInput.value.trim().length === 0) 
+  return ;
+
+  var text = cityInput.value.trim();
+
+  fetchCityWeatherInfo(text)
+  .then((data) => {
     fetchForecast(data.coord.lat, data.coord.lon);
+  });
+  .then(() => {
+    history.add(text.toLowerCase());
+    renderSearchHistory();
   });
 
   form.reset();
