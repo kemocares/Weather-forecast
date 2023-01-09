@@ -36,7 +36,7 @@ form.addEventListener("submit", function (event) {
   .then((data) => {
     fetchForecast(data.coord.lat, data.coord.lon);
   });
-  .then(() => {
+   .then(() => {
     history.add(text.toLowerCase());
     renderSearchHistory();
   });
@@ -98,16 +98,13 @@ function fetchForecast(lat, lon) {
       Object.values(data).sort((a, b) => a.timestamp - b.timestamp)
     )
     .then((data) => data.map(renderForecast))
-    .then((data) =>
-      data.forEach((forecast, index) => {
-        forecastCards.childNodes[index]
-          ? forecastCards.replaceChild(
-              forecast,
-              forecastCards.childNodes[index]
-            )
-          : forecastCards.appendChild(forecast);
-      })
-    )
+    .then((data) => {
+
+        forecastCards.innerHTML = "";
+      return data.forEach((forecast, index) => {
+        forecastCards.appendChild(forecast);
+      });
+    })
     .catch((e) => console.log(e.message));
 }
 
@@ -126,4 +123,19 @@ function renderForecast(data) {
           <p>Humidity: ${humidity}%</p>
   `;
   return div;
+}
+
+function renderSearchHistory() {
+  searchHistory.innerHTML = "";
+  history.forEach((item) => {
+    const searchButton = document.createElement("button");
+    searchButton.textContent = item;
+    searchButton.addEventListener("click", (e) => {
+      fetchCityWeatherInfo(item).then((data) => {
+        fetchForecast(data.coord.lat, data.coord.lon);
+      });
+    });
+    searchHistory.appendChild(searchButton);
+  });
+  localStorage.setItem("searchHistory", JSON.stringify([...history]));
 }
