@@ -58,7 +58,7 @@ main {
 }
 
 .search-history button {
-  bbackground-color: #aeaeae;
+  background-color: #aeaeae;
   margin: 0;
   padding: 0.5rem;
   text-align: center;
@@ -94,6 +94,7 @@ main {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
+  overflow-x: auto;
 }
 
 .forecast {
@@ -109,4 +110,17 @@ main {
 
 .forecast p {
   margin-top: 0;
+}
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .search-history {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .search-history button {
+    padding-block: 0.25em;
+  }
 }
