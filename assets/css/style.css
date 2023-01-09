@@ -70,6 +70,7 @@ main {
 
 .display {
   display: grid;
+  grid-template-rows: auto 1fr;
   gap: 1rem;
 }
 
@@ -88,6 +89,10 @@ main {
 .today h2 {
   margin: 0;
   font-size: 2rem;
+}
+
+.forecasts {
+  overflow: hidden;
 }
 
 .forecast-cards {
@@ -111,6 +116,7 @@ main {
 .forecast p {
   margin-top: 0;
 }
+
 @media (max-width: 768px) {
   main {
     grid-template-columns: 1fr;
@@ -120,6 +126,7 @@ main {
     display: flex;
     flex-wrap: wrap;
   }
+
   .search-history button {
     padding-block: 0.25em;
   }

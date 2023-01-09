@@ -1,24 +1,22 @@
-var apiKey = "29b9a6dfa87724598ef9c7b35a755e4c";
-var weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
-var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
-var iconUrl = "https://openweathermap.org/img/w/";
-var history = new Set(JSON.parse(localStorage.getItem("searchHistory")));
+const apiKey = "29b9a6dfa87724598ef9c7b35a755e4c";
+const weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
+const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
+const iconUrl = "https://openweathermap.org/img/w/";
+const history = new Set(JSON.parse(localStorage.getItem("searchHistory")));
 
-var form = document.querySelector("form");
-var cityInput = form.querySelector("input");
-var currentCity = document.querySelector(".city-name");
-var currentDate = document.querySelector(".current-date");
-var currentTemp = document.querySelector(".current-temp");
-var currentWind = document.querySelector(".current-wind");
-var currentHumidity = document.querySelector(".current-humidity");
-var currentIcon = document.querySelector(".current-icon");
-var forecastCards = document.querySelector(".forecast-cards");
-var searchHistory = document.querySelector(".search-history");
-
+const form = document.querySelector("form");
+const cityInput = form.querySelector("input");
+const currentCity = document.querySelector(".city-name");
+const currentDate = document.querySelector(".current-date");
+const currentTemp = document.querySelector(".current-temp");
+const currentWind = document.querySelector(".current-wind");
+const currentHumidity = document.querySelector(".current-humidity");
+const currentIcon = document.querySelector(".current-icon");
+const forecastCards = document.querySelector(".forecast-cards");
+const searchHistory = document.querySelector(".search-history");
 
 window.addEventListener("load", function () {
   renderSearchHistory();
-
   fetchCityWeatherInfo("London").then((data) => {
     fetchForecast(data.coord.lat, data.coord.lon);
   });
@@ -27,19 +25,18 @@ window.addEventListener("load", function () {
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  if (cityInput.value.trim().length === 0) 
-  return ;
+  if (cityInput.value.trim().length === 0) return;
 
-  var text = cityInput.value.trim();
+  const text = cityInput.value.trim();
 
   fetchCityWeatherInfo(text)
-  .then((data) => {
-    fetchForecast(data.coord.lat, data.coord.lon);
-  });
-   .then(() => {
-    history.add(text.toLowerCase());
-    renderSearchHistory();
-  });
+    .then((data) => {
+      fetchForecast(data.coord.lat, data.coord.lon);
+    })
+    .then(() => {
+      history.add(text.toLowerCase());
+      renderSearchHistory();
+    });
 
   form.reset();
 });
@@ -99,8 +96,7 @@ function fetchForecast(lat, lon) {
     )
     .then((data) => data.map(renderForecast))
     .then((data) => {
-
-        forecastCards.innerHTML = "";
+      forecastCards.innerHTML = "";
       return data.forEach((forecast, index) => {
         forecastCards.appendChild(forecast);
       });
