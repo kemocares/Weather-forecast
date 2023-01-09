@@ -14,6 +14,7 @@
     <header class="header">
       <h1>Weather Dashboard</h1>
     </header>
+    <!-- form input for accepting search -->
     <main>
       <div class="search">
         <section class="search-form">
@@ -23,16 +24,11 @@
             <button type="submit">Search</button>
           </form>
           <hr />
-          <section class="search-history">
-            <p>Berlin</p>
-            <p>Paris</p>
-            <p>Edinburgh</p>
-            <p>Madrid</p>
-            <p>Birmingham</p>
-            <p>London</p>
-          </section>
+          <!-- search history section -->
+          <section class="search-history"></section>
         </section>
       </div>
+      <!-- view the current weather conditions -->
       <div class="display">
         <section class="today">
           <header>
@@ -46,6 +42,7 @@
           <p>Wind: <span class="current-wind"></span> KPH</p>
           <p>Humidity: <span class="current-humidity"></span>%</p>
         </section>
+        <!-- section for a 5-day forecast displays -->
         <section class="forecasts">
           <h2>5-Day Forecast</h2>
           <div class="forecast-cards"></div>
