@@ -2,6 +2,7 @@ var apiKey = "29b9a6dfa87724598ef9c7b35a755e4c";
 var weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
 var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
 var iconUrl = "https://openweathermap.org/img/w/";
+var history = new Set(JSON.parse(localStorage.getItem("searchHistory")));
 
 var form = document.querySelector("form");
 var cityInput = form.querySelector("input");
@@ -12,6 +13,7 @@ var currentWind = document.querySelector(".current-wind");
 var currentHumidity = document.querySelector(".current-humidity");
 var currentIcon = document.querySelector(".current-icon");
 var forecastCards = document.querySelector(".forecast-cards");
+var searchHistory = document.querySelector(".search-history");
 
 window.addEventListener("load", function () {
   fetchCityWeatherInfo("London");
