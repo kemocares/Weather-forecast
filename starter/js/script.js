@@ -1,19 +1,19 @@
-var apiKey = "29b9a6dfa87724598ef9c7b35a755e4c";
-var weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
-var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
-var iconUrl = "https://openweathermap.org/img/w/";
-var history = new Set(JSON.parse(localStorage.getItem("searchHistory")));
+const apiKey = "29b9a6dfa87724598ef9c7b35a755e4c";
+const weatherUrl = "https://api.openweathermap.org/data/2.5/weather";
+const forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
+const iconUrl = "https://openweathermap.org/img/w/";
+const history = new Set(JSON.parse(localStorage.getItem("searchHistory")));
 
-var form = document.querySelector("form");
-var cityInput = form.querySelector("input");
-var currentCity = document.querySelector(".city-name");
-var currentDate = document.querySelector(".current-date");
-var currentTemp = document.querySelector(".current-temp");
-var currentWind = document.querySelector(".current-wind");
-var currentHumidity = document.querySelector(".current-humidity");
-var currentIcon = document.querySelector(".current-icon");
-var forecastCards = document.querySelector(".forecast-cards");
-var searchHistory = document.querySelector(".search-history");
+const form = document.querySelector("form");
+const cityInput = form.querySelector("input");
+const currentCity = document.querySelector(".city-name");
+const currentDate = document.querySelector(".current-date");
+const currentTemp = document.querySelector(".current-temp");
+const currentWind = document.querySelector(".current-wind");
+const currentHumidity = document.querySelector(".current-humidity");
+const currentIcon = document.querySelector(".current-icon");
+const forecastCards = document.querySelector(".forecast-cards");
+const searchHistory = document.querySelector(".search-history");
 
 window.addEventListener("load", function () {
   renderSearchHistory();
@@ -27,7 +27,7 @@ form.addEventListener("submit", function (event) {
 
   if (cityInput.value.trim().length === 0) return;
 
-  var text = cityInput.value.trim();
+  const text = cityInput.value.trim();
 
   fetchCityWeatherInfo(text)
     .then((data) => {
@@ -41,13 +41,11 @@ form.addEventListener("submit", function (event) {
   form.reset();
 });
 
-async function fetchCityWeatherInfo(city) {
-  try {
-    var res = await fetch(
-      weatherUrl + `?q=${city}&appid=${apiKey}&units=metric`
-    );
-    var currentData = await res.json();
-    console.log(`
+function fetchCityWeatherInfo(city) {
+  return fetch(weatherUrl + `?q=${city}&appid=${apiKey}&units=metric`)
+    .then((res) => res.json())
+    .then((currentData) => {
+      console.log(`
         City: ${currentData.name}
         Temp: ${Math.round(currentData.main.temp)}
         Wind: ${currentData.wind.speed}
@@ -55,20 +53,20 @@ async function fetchCityWeatherInfo(city) {
         Icon URL: ${iconUrl + currentData.weather[0].icon + ".png"}
       `);
 
-    currentCity.textContent = currentData.name;
-    currentDate.textContent = new Date(
-      currentData.dt * 1000
-    ).toLocaleDateString();
-    currentDate.datetime = new Date().toLocaleDateString();
-    currentTemp.textContent = currentData.main.temp.toFixed(2);
-    currentWind.textContent = currentData.wind.speed;
-    currentHumidity.textContent = currentData.main.humidity;
-    currentIcon.src = iconUrl + currentData.weather[0].icon + ".png";
-    currentIcon.alt = currentData.weather[0].description;
-    return currentData;
-  } catch (e) {
-    return console.log(e.message);
-  }
+      currentCity.textContent = currentData.name;
+      currentDate.textContent = new Date(
+        currentData.dt * 1000
+      ).toLocaleDateString();
+      currentDate.datetime = new Date().toLocaleDateString();
+      currentTemp.textContent = currentData.main.temp.toFixed(2);
+      currentWind.textContent = currentData.wind.speed;
+      currentHumidity.textContent = currentData.main.humidity;
+      currentIcon.src = iconUrl + currentData.weather[0].icon + ".png";
+      currentIcon.alt = currentData.weather[0].description;
+
+      return currentData;
+    })
+    .catch((e) => console.log(e.message));
 }
 
 function fetchForecast(lat, lon) {
@@ -77,7 +75,7 @@ function fetchForecast(lat, lon) {
     .then((data) => data.list)
     .then((data) =>
       data.reduce((acc, item) => {
-        var date = new Date(item.dt * 1000).toLocaleDateString();
+        const date = new Date(item.dt * 1000).toLocaleDateString();
 
         if (date === new Date().toLocaleDateString()) return acc;
 
@@ -107,9 +105,9 @@ function fetchForecast(lat, lon) {
 }
 
 function renderForecast(data) {
-  var { date, temp, wind, humidity, iconUrl, iconDescription } = data;
+  const { date, temp, wind, humidity, iconUrl, iconDescription } = data;
 
-  var div = document.createElement("div");
+  const div = document.createElement("div");
   div.classList.add("forecast");
   div.innerHTML = `
           <header>
@@ -126,7 +124,7 @@ function renderForecast(data) {
 function renderSearchHistory() {
   searchHistory.innerHTML = "";
   history.forEach((item) => {
-    var searchButton = document.createElement("button");
+    const searchButton = document.createElement("button");
     searchButton.textContent = item;
     searchButton.addEventListener("click", (e) => {
       fetchCityWeatherInfo(item).then((data) => {
